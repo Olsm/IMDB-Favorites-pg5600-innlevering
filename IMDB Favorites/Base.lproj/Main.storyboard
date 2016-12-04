@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,20 +19,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mq5-S6-W8b">
-                                <frame key="frameInset" minX="16" minY="101" width="343" height="509"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mq5-S6-W8b">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="IMDB Favorites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf2-PE-0CF">
-                                <frame key="frameInset" minX="67" minY="20" width="241" height="73"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IMDB Favorites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf2-PE-0CF">
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="Mq5-S6-W8b" secondAttribute="bottom" constant="8" id="3Ty-Gd-evB"/>
+                            <constraint firstItem="Mq5-S6-W8b" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="AX4-NS-JqJ"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="Mq5-S6-W8b" secondAttribute="leading" id="Bag-bM-RDB"/>
+                            <constraint firstItem="Mq5-S6-W8b" firstAttribute="centerX" secondItem="Rf2-PE-0CF" secondAttribute="centerX" id="K1L-2V-gYV"/>
+                            <constraint firstItem="Mq5-S6-W8b" firstAttribute="top" secondItem="Rf2-PE-0CF" secondAttribute="bottom" constant="8" symbolic="YES" id="ScM-Bh-PVU"/>
+                            <constraint firstItem="Rf2-PE-0CF" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="Uh6-yd-d3E"/>
+                            <constraint firstItem="Rf2-PE-0CF" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="51" id="cOZ-5d-wLt"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Favorites" image="first" id="acW-dT-cKf"/>
                 </viewController>
@@ -51,16 +57,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add movie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vaF-ES-rvX">
-                                <frame key="frameInset" minX="16" minY="28" width="343" height="59"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add movie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vaF-ES-rvX">
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vJM-rw-ZR0">
-                                <frame key="frameInset" minY="87" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Enter movie" translatesAutoresizingMaskIntoConstraints="NO" id="vJM-rw-ZR0">
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="8rJ-Kc-sve" id="jvv-Ql-5Cg"/>
@@ -68,14 +70,23 @@
                             </searchBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="vJM-rw-ZR0" firstAttribute="top" secondItem="vaF-ES-rvX" secondAttribute="bottom" constant="16" id="9Hz-Pj-Cjd"/>
+                            <constraint firstItem="vaF-ES-rvX" firstAttribute="trailing" secondItem="QS5-Rx-YEW" secondAttribute="trailingMargin" id="CR0-Rj-7hd"/>
+                            <constraint firstItem="vaF-ES-rvX" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" id="JsL-yo-IxL"/>
+                            <constraint firstItem="vaF-ES-rvX" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="8" symbolic="YES" id="Ma5-uI-s6z"/>
+                            <constraint firstItem="vaF-ES-rvX" firstAttribute="centerX" secondItem="vJM-rw-ZR0" secondAttribute="centerX" id="YcH-3D-nPJ"/>
+                            <constraint firstItem="vJM-rw-ZR0" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" id="j35-09-u4F"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Add Movies" image="second" id="cPa-gy-q4n"/>
                     <connections>
+                        <outlet property="movieSearch" destination="vJM-rw-ZR0" id="Jxj-gG-z9v"/>
                         <outlet property="searchDisplayController" destination="x0O-Ct-Jwi" id="Qlp-ny-F8Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="x0O-Ct-Jwi">
+                <searchDisplayController searchResultsTitle="" id="x0O-Ct-Jwi">
                     <connections>
                         <outlet property="delegate" destination="8rJ-Kc-sve" id="glx-UB-qwf"/>
                         <outlet property="searchBar" destination="vJM-rw-ZR0" id="iWP-Nr-h8e"/>
