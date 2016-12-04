@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  SecondViewController.swift
 //  IMDB Favorites
 //
 //  Created by Olav on 03/12/16.
@@ -8,8 +8,10 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class AddMovieViewController: UIViewController {
 
+    @IBOutlet weak var movieSearch: UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -18,6 +20,11 @@ class FirstViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // End first responders on touches (remove keyboard)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 
 

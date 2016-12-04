@@ -1,5 +1,5 @@
 //
-//  SecondViewController.swift
+//  FirstViewController.swift
 //  IMDB Favorites
 //
 //  Created by Olav on 03/12/16.
@@ -8,10 +8,8 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class FavoritesViewController: UIViewController {
 
-    @IBOutlet weak var movieSearch: UISearchBar!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

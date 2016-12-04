@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Favorites-->
+        <!--Favorites View Controller-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" customClass="FirstViewController" customModule="IMDB_Favorites" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9pv-A4-QxB" customClass="FavoritesViewController" customModule="IMDB_Favorites" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -19,36 +19,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mq5-S6-W8b">
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IMDB Favorites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf2-PE-0CF">
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jpE-Gp-q7w">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="Mq5-S6-W8b" secondAttribute="bottom" constant="8" id="3Ty-Gd-evB"/>
-                            <constraint firstItem="Mq5-S6-W8b" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="AX4-NS-JqJ"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="Mq5-S6-W8b" secondAttribute="leading" id="Bag-bM-RDB"/>
-                            <constraint firstItem="Mq5-S6-W8b" firstAttribute="centerX" secondItem="Rf2-PE-0CF" secondAttribute="centerX" id="K1L-2V-gYV"/>
-                            <constraint firstItem="Mq5-S6-W8b" firstAttribute="top" secondItem="Rf2-PE-0CF" secondAttribute="bottom" constant="8" symbolic="YES" id="ScM-Bh-PVU"/>
+                            <constraint firstItem="jpE-Gp-q7w" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="4gk-Qr-t4B"/>
                             <constraint firstItem="Rf2-PE-0CF" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="Uh6-yd-d3E"/>
                             <constraint firstItem="Rf2-PE-0CF" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="51" id="cOZ-5d-wLt"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="jpE-Gp-q7w" secondAttribute="bottom" constant="8" symbolic="YES" id="uxc-bJ-EAO"/>
+                            <constraint firstItem="jpE-Gp-q7w" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" id="x87-zf-5sQ"/>
+                            <constraint firstItem="jpE-Gp-q7w" firstAttribute="top" secondItem="Rf2-PE-0CF" secondAttribute="bottom" constant="8" symbolic="YES" id="yxz-sO-9lA"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Favorites" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="acW-dT-cKf"/>
+                    <connections>
+                        <segue destination="lE8-hu-qAd" kind="showDetail" identifier="movieDetail" id="vyK-tp-Bup"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="749.60000000000002" y="-320.68965517241384"/>
         </scene>
-        <!--Add Movies-->
+        <!--Add Movie View Controller-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModule="IMDB_Favorites" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8rJ-Kc-sve" customClass="AddMovieViewController" customModule="IMDB_Favorites" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
                         <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
@@ -79,7 +81,7 @@
                             <constraint firstItem="vJM-rw-ZR0" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" id="j35-09-u4F"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Add Movies" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" systemItem="search" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="movieSearch" destination="vJM-rw-ZR0" id="Jxj-gG-z9v"/>
                         <outlet property="searchDisplayController" destination="x0O-Ct-Jwi" id="Qlp-ny-F8Q"/>
@@ -97,6 +99,67 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="749.60000000000002" y="359.37031484257875"/>
+        </scene>
+        <!--Movie Detail View Controller-->
+        <scene sceneID="JZx-78-3Bz">
+            <objects>
+                <viewController id="lE8-hu-qAd" customClass="MovieDetailViewController" customModule="IMDB_Favorites" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lnP-eK-rmY"/>
+                        <viewControllerLayoutGuide type="bottom" id="baw-ZP-1XL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="B1Y-EH-5VI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJc-Fb-Kxc">
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="center" axis="vertical" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HXY-7N-ZGv">
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Year: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9V5-88-qRx">
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Playtime: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a1I-uo-QPu">
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genre: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fzh-xP-Z9x">
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hY1-Mn-c4L">
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Seen: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hlG-X1-W17">
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="leadingMargin" secondItem="iJc-Fb-Kxc" secondAttribute="leading" id="4uy-Yk-K2s"/>
+                            <constraint firstItem="iJc-Fb-Kxc" firstAttribute="centerX" secondItem="B1Y-EH-5VI" secondAttribute="centerX" id="D4y-k3-Hbg"/>
+                            <constraint firstItem="HXY-7N-ZGv" firstAttribute="top" secondItem="lnP-eK-rmY" secondAttribute="bottom" constant="123" id="QUN-TH-SLZ"/>
+                            <constraint firstItem="HXY-7N-ZGv" firstAttribute="centerX" secondItem="B1Y-EH-5VI" secondAttribute="centerX" id="cMA-Sz-Bsr"/>
+                            <constraint firstItem="iJc-Fb-Kxc" firstAttribute="top" secondItem="lnP-eK-rmY" secondAttribute="bottom" constant="8" id="xhv-uy-OaA"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ubO-y8-GjF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1701.5999999999999" y="-134.48275862068968"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -118,8 +181,4 @@
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
-    </resources>
 </document>
