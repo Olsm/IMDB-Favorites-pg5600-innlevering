@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddMovieViewController: UIViewController {
+class AddMovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,UISearchBarDelegate, UISearchDisplayDelegate {
 
     @IBOutlet weak var movieSearch: UISearchBar!
     
@@ -25,6 +25,24 @@ class AddMovieViewController: UIViewController {
     // End first responders on touches (remove keyboard)
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = "test"
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("test: \(indexPath.row)")
     }
 
 
