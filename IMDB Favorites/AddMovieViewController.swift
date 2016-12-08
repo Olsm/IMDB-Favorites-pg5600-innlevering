@@ -45,7 +45,9 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = movies[indexPath.row].title
+        let title = movies[indexPath.row].title
+        let year = movies[indexPath.row].year
+        cell.textLabel?.text = "\(title) (\(year))"
         return cell
     }
     
@@ -53,9 +55,7 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
         print("test: \(indexPath.row)")
     }
     
-    func updateSearchResults(for searchController: UISearchController) {
-        
-    }
+    func updateSearchResults(for searchController: UISearchController){}
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if let title = searchController.searchBar.text {
