@@ -24,6 +24,7 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
         searchController.searchBar.placeholder = "Movie title..."
+        searchController.searchBar.delegate = self
         tableView.tableHeaderView = searchController.searchBar
         tableView.reloadData()
     }
@@ -53,6 +54,10 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     }
     
     func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if let title = searchController.searchBar.text {
             movies = parseJSON(title: title)
         }
@@ -60,12 +65,16 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     }
     
     func parseJSON(title: String) -> [Movie] {
-        return parseJSON(url: "http://www.omdbapi.com/?s=\(title)&y=&plot=short&r=json")
+        let t = title.replacingOccurrences(of: " ", with: "+")
+        return parseJSON(url: "http://www.omdbapi.com/?s=\(t)&y=&plot=short&r=json")
     }
     
     func parseJSON(url: String) -> [Movie] {
+        movies = [Movie]()
         do {
-            var path = URL(string: url)!
+            guard let path = URL(string: url) else {
+                return movies
+            }
             var imdbId : String
             
             var jsonData = try Data(contentsOf: path)
@@ -74,17 +83,20 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
             // Replace elements with more data from api
             for (index, jsonMovie) in readableJSON {
                 imdbId = jsonMovie["imdbId"].stringValue
-                path = URL(string: "http://www.omdbapi.com/?i=\(imdbId)")!
+                guard let path = URL(string: "http://www.omdbapi.com/?i=\(imdbId)") else {
+                    return movies
+                }
                 try jsonData = Data(contentsOf: path)
                 readableJSON[index] = JSON(data: jsonData)
             }
             
-            return jsonToMovies(readableJSON: readableJSON)
+            movies = jsonToMovies(readableJSON: readableJSON)
         } catch {
             // TODO: Error handling
             print("Some JSON error occurred")
-            return [Movie]()
         }
+        
+        return movies
     }
     
     func jsonToMovies(readableJSON: JSON) -> Array<Movie> {
