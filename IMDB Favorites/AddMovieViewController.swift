@@ -9,17 +9,23 @@
 import UIKit
 import SwiftyJSON
 
-class AddMovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
-
-    @IBOutlet weak var movieSearch: UISearchBar!
+class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
     
-    @IBOutlet var searchResultsController: UISearchController!
+    @IBOutlet var movieResult: UITableView!
+    
+    
+    let searchController = UISearchController(searchResultsController: nil)
     
     var movies : [Movie] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.sizeToFit()
+        searchController.searchBar.placeholder = "Movie title..."
+        tableView.tableHeaderView = searchController.searchBar
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,25 +38,25 @@ class AddMovieViewController: UIViewController, UITableViewDataSource, UITableVi
         self.view.endEditing(true)
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         cell.textLabel?.text = movies[indexPath.row].title
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("test: \(indexPath.row)")
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let title = searchBar.text {
+    func updateSearchResults(for searchController: UISearchController) {
+        if let title = searchController.searchBar.text {
             movies = parseJSON(title: title)
         }
-        searchDisplayController?.searchResultsTableView.reloadData()
+        tableView.reloadData()
     }
     
     func parseJSON(title: String) -> [Movie] {

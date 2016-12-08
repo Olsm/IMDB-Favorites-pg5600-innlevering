@@ -57,59 +57,37 @@
             </objects>
             <point key="canvasLocation" x="1688.8" y="-320.68965517241384"/>
         </scene>
-        <!--Add Movie View Controller-->
-        <scene sceneID="wg7-f3-ORb">
+        <!--Add Movie-->
+        <scene sceneID="d1Q-a5-ITY">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="AddMovieViewController" customModule="IMDB_Favorites" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
-                        <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
+                <tableViewController title="Add Movie" id="kx5-nQ-D9K" customClass="AddMovieViewController" customModule="IMDB_Favorites" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="vlv-Ye-SZu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add movie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vaF-ES-rvX">
-                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Enter movie" translatesAutoresizingMaskIntoConstraints="NO" id="vJM-rw-ZR0">
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="8rJ-Kc-sve" id="jvv-Ql-5Cg"/>
-                                </connections>
-                            </searchBar>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="vJM-rw-ZR0" firstAttribute="top" secondItem="vaF-ES-rvX" secondAttribute="bottom" constant="16" id="9Hz-Pj-Cjd"/>
-                            <constraint firstItem="vaF-ES-rvX" firstAttribute="trailing" secondItem="QS5-Rx-YEW" secondAttribute="trailingMargin" id="CR0-Rj-7hd"/>
-                            <constraint firstItem="vaF-ES-rvX" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" id="JsL-yo-IxL"/>
-                            <constraint firstItem="vaF-ES-rvX" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="8" symbolic="YES" id="Ma5-uI-s6z"/>
-                            <constraint firstItem="vaF-ES-rvX" firstAttribute="centerX" secondItem="vJM-rw-ZR0" secondAttribute="centerX" id="YcH-3D-nPJ"/>
-                            <constraint firstItem="vJM-rw-ZR0" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" id="j35-09-u4F"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" systemItem="search" id="cPa-gy-q4n"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="boi-Y4-j3H">
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="boi-Y4-j3H" id="CKH-IW-e5J">
+                                    <frame key="frameInset" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="kx5-nQ-D9K" id="aGz-68-8t8"/>
+                            <outlet property="delegate" destination="kx5-nQ-D9K" id="3D6-zd-uw8"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Add Movie" id="qjk-w8-2ZW"/>
                     <connections>
-                        <outlet property="movieSearch" destination="vJM-rw-ZR0" id="Jxj-gG-z9v"/>
-                        <outlet property="searchDisplayController" destination="x0O-Ct-Jwi" id="Qlp-ny-F8Q"/>
-                        <outlet property="searchResultsController" destination="x0O-Ct-Jwi" id="YDV-bY-S2P"/>
+                        <outlet property="movieResult" destination="vlv-Ye-SZu" id="Hcg-3c-gJt"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
-                <searchDisplayController searchResultsTitle="Movies (click to add)" id="x0O-Ct-Jwi">
-                    <connections>
-                        <outlet property="delegate" destination="8rJ-Kc-sve" id="glx-UB-qwf"/>
-                        <outlet property="searchBar" destination="vJM-rw-ZR0" id="iWP-Nr-h8e"/>
-                        <outlet property="searchContentsController" destination="8rJ-Kc-sve" id="ota-wu-Leh"/>
-                        <outlet property="searchResultsDataSource" destination="8rJ-Kc-sve" id="iii-Mz-wne"/>
-                        <outlet property="searchResultsDelegate" destination="8rJ-Kc-sve" id="dz5-pU-UXP"/>
-                    </connections>
-                </searchDisplayController>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h7f-Kg-hqr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="749.60000000000002" y="359.37031484257875"/>
+            <point key="canvasLocation" x="1688.8" y="378.26086956521743"/>
         </scene>
         <!--Movie Detail View Controller-->
         <scene sceneID="JZx-78-3Bz">
@@ -173,7 +151,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ubO-y8-GjF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2640.8000000000002" y="-134.48275862068968"/>
+            <point key="canvasLocation" x="3580" y="-134.48275862068968"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -187,7 +165,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="gql-pV-b8n" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="nHp-D4-2et" kind="relationship" relationship="viewControllers" id="oG4-48-RKX"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -216,6 +194,29 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uEx-oD-nYt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="749.60000000000002" y="-320.68965517241384"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="RYJ-n4-aQd">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nHp-D4-2et" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="search" id="Glc-yW-Mm9"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NHf-Pp-Bor">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="0hz-q4-9NU">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="kx5-nQ-D9K" kind="relationship" relationship="rootViewController" id="spz-IP-FfR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aXt-sm-Mgx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="749.60000000000002" y="378.26086956521743"/>
         </scene>
     </scenes>
 </document>
