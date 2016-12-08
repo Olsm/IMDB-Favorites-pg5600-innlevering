@@ -32,6 +32,7 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        self.definesPresentationContext = true
     }
 
     override func didReceiveMemoryWarning() {
