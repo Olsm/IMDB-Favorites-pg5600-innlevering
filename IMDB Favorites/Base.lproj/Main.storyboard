@@ -95,10 +95,11 @@
                     <connections>
                         <outlet property="movieSearch" destination="vJM-rw-ZR0" id="Jxj-gG-z9v"/>
                         <outlet property="searchDisplayController" destination="x0O-Ct-Jwi" id="Qlp-ny-F8Q"/>
+                        <outlet property="searchResultsController" destination="x0O-Ct-Jwi" id="YDV-bY-S2P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
-                <searchDisplayController searchResultsTitle="" id="x0O-Ct-Jwi">
+                <searchDisplayController searchResultsTitle="Movies (click to add)" id="x0O-Ct-Jwi">
                     <connections>
                         <outlet property="delegate" destination="8rJ-Kc-sve" id="glx-UB-qwf"/>
                         <outlet property="searchBar" destination="vJM-rw-ZR0" id="iWP-Nr-h8e"/>

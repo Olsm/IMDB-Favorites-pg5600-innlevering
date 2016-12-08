@@ -18,6 +18,7 @@
 		E56CDE8C1DF35A4B00967587 /* IMDB_FavoritesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56CDE8B1DF35A4B00967587 /* IMDB_FavoritesTests.swift */; };
 		E56CDE971DF35A4B00967587 /* IMDB_FavoritesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56CDE961DF35A4B00967587 /* IMDB_FavoritesUITests.swift */; };
 		E5792D641DF525C800AD6B86 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E5792D631DF525C800AD6B86 /* Podfile */; };
+		E5792D661DF5EB0500AD6B86 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5792D651DF5EB0500AD6B86 /* Movie.swift */; };
 		E5E390101DF4904D00DC24D3 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E3900F1DF4904D00DC24D3 /* MovieDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		E56CDE961DF35A4B00967587 /* IMDB_FavoritesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMDB_FavoritesUITests.swift; sourceTree = "<group>"; };
 		E56CDE981DF35A4B00967587 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E5792D631DF525C800AD6B86 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		E5792D651DF5EB0500AD6B86 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		E5E3900F1DF4904D00DC24D3 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,6 +142,7 @@
 				E56CDE7F1DF35A4B00967587 /* LaunchScreen.storyboard */,
 				E56CDE821DF35A4B00967587 /* Info.plist */,
 				E5792D631DF525C800AD6B86 /* Podfile */,
+				E5792D651DF5EB0500AD6B86 /* Movie.swift */,
 			);
 			path = "IMDB Favorites";
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				E56CDE791DF35A4B00967587 /* AddMovieViewController.swift in Sources */,
 				E56CDE751DF35A4B00967587 /* AppDelegate.swift in Sources */,
 				E56CDE771DF35A4B00967587 /* FavoritesViewController.swift in Sources */,
+				E5792D661DF5EB0500AD6B86 /* Movie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
