@@ -13,19 +13,24 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     
     @IBOutlet var movieResult: UITableView!
     
-    
     let searchController = UISearchController(searchResultsController: nil)
     
     var movies : [Movie] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
         searchController.searchBar.placeholder = "Movie title..."
         searchController.searchBar.delegate = self
         tableView.tableHeaderView = searchController.searchBar
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         tableView.reloadData()
     }
 
@@ -52,7 +57,8 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("test: \(indexPath.row)")
+        let selectedMovie = movies[indexPath.row]
+        print("test: \(selectedMovie.title)")
     }
     
     func updateSearchResults(for searchController: UISearchController){}
