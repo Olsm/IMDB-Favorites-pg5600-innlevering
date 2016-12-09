@@ -20,6 +20,12 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     var movieSearch : [JSON] = []
     var movieEntities : [Movie] = []
     
+    let MOVIE_ID = "imdbID"
+    let MOVIE_TITLE = "Title"
+    let MOVIE_YEAR = "Year"
+    let MOVIE_RATE = "Rating"
+    let MOVIE_RUNTIME = "Runtime"
+    
     lazy var db: CoreDataDefaultStorage = {
         let store = CoreDataStore.named("movie_favorites")
         let bundle = Bundle(for: self.classForCoder)
@@ -62,18 +68,16 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let movie = movieSearch[indexPath.row]
+        let movieJSON = movieSearch[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = "\(movie["Title"]) (\(movie["Year"]))"
+        cell.textLabel?.text = "\(movieJSON[MOVIE_TITLE]) (\(movieJSON[MOVIE_YEAR]))"
         
-        /*
-        if movieEntities.contains(movieSearch[String(indexPath.row)]) {
+        if containsMovieByJSON(movieJSON: movieJSON) {
             cell.accessoryType = UITableViewCellAccessoryType.checkmark
         } else {
             cell.accessoryType = UITableViewCellAccessoryType.none
         }
-        */
         
         return cell
     }
@@ -81,41 +85,45 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedMovie = movieSearch[indexPath.row]
         saveOrRemoveMovie(movieJSON: selectedMovie)
+        tableView.reloadData()
     }
     
     func saveOrRemoveMovie(movieJSON: JSON) {
+        
         if let movie = getMovieByJSON(movieJSON: movieJSON) {
             deleteMovie(imdbId: movie.id)
         } else {
-            if let movie = jsonToMovie(readableJSON: movieJSON) {
-                saveMovie(movie: movie)
-            }
+            saveMovie(readableJSON: movieJSON)
         }
+        
+        movieEntities = try! db.fetch(FetchRequest<Movie>())
     }
     
     func getMovieByJSON(movieJSON: JSON) -> Movie? {
         for movie in movieEntities {
-            if movie.id == movieJSON["imdbId"].stringValue {
+            if movie.id == movieJSON[MOVIE_ID].string {
                 return movie
             }
         }
-        return  nil
+        return nil
     }
     
     func containsMovieByJSON(movieJSON: JSON) -> Bool {
-        for movie in movieEntities {
-            if movie.id == movieJSON["imdbId"].stringValue {
-                return true
-            }
-        }
-        return false
+        return getMovieByJSON(movieJSON: movieJSON) != nil
     }
     
-    func saveMovie(movie: Movie) {
+    func saveMovie(readableJSON: JSON) {
         do {
             try db.operation { (context, save) throws -> Void in
-                try context.insert(movie)
+                let movie: Movie = try context.create()
+                movie.id = readableJSON[self.MOVIE_ID].stringValue
+                movie.title = readableJSON[self.MOVIE_TITLE].stringValue
+                movie.year = Int16(readableJSON[self.MOVIE_YEAR].stringValue)!
+                movie.rating = readableJSON[self.MOVIE_RATE].double!
+                movie.runtime = readableJSON[self.MOVIE_RUNTIME].string!
+                movie.seen = nil
                 save()
+                //self.movieEntities.append(movie)
             }
         }
         catch {
@@ -130,6 +138,7 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
                 if let movie = movie {
                     try context.remove([movie])
                     save()
+                    //self.movieEntities.remove(at: self.movieEntities.index(of: movie)!)
                 }
             }
         } catch {
@@ -166,7 +175,7 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
              // Replace elements with more data from api
              var imdbId : String
             for (index, jsonMovie) in readableJSON {
-                imdbId = jsonMovie["imdbId"].stringValue
+                imdbId = jsonMovie[MOVIE_ID].stringValue
                 guard let path = URL(string: "http://www.omdbapi.com/?i=\(imdbId)") else {
                     return movies
                 }
@@ -183,34 +192,6 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
         }
         
         return [JSON.null]
-    }
-    
-    func jsonToMovies(readableJSON: JSON) -> Array<Movie> {
-        var movies = [Movie]()
-        if let jsonArray = readableJSON.array {
-            for jsonMovie in jsonArray {
-                movies.append(jsonToMovie(readableJSON: jsonMovie)!)
-            }
-        }
-        return movies
-    }
-    
-    
-    func jsonToMovie(readableJSON: JSON) -> Movie? {
-        do {
-            let movie: Movie = try db.mainContext.new()
-            movie.id = readableJSON["imdbId"].stringValue
-            movie.title = readableJSON["Title"].stringValue
-            movie.year = readableJSON["Year"].int16Value
-            movie.rating = readableJSON["imdbRating"].doubleValue
-            movie.runtime = readableJSON["runtime"].stringValue
-            movie.seen = nil
-            return movie
-        } catch {
-            // There was an error in the operation
-        }
-        
-        return nil
     }
     
 }

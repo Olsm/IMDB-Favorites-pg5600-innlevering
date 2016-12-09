@@ -7,12 +7,22 @@
 //
 
 import UIKit
+import CoreData
+import SugarRecord
 
 class FavoritesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
     var movies = [Movie]()
+    
+    lazy var db: CoreDataDefaultStorage = {
+        let store = CoreDataStore.named("movie_favorites")
+        let bundle = Bundle(for: self.classForCoder)
+        let model = CoreDataObjectModel.merged([bundle])
+        let defaultStorage = try! CoreDataDefaultStorage(store: store, model: model)
+        return defaultStorage
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,19 +35,16 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         // Dispose of any resources that can be recreated.
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let movie = movies[indexPath.row]
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        let title = movies[indexPath.row].title
-        let year = movies[indexPath.row].year
-        cell.textLabel?.text = "\(title) (\(year))"
+        cell.textLabel?.text = "\(movie.title) (\(movie.year))"
+        
         return cell
     }
     
@@ -52,6 +59,7 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        movies = try! db.fetch(FetchRequest<Movie>())
         tableView.reloadData()
     }
 
