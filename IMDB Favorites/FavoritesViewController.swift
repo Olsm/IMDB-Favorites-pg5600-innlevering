@@ -54,7 +54,7 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let guest = segue.destination as! MovieDetailViewController
-        guest.mTitle = (sender as! String)
+        guest.movie = (sender as! Movie)
     }
     
     override func viewWillAppear(_ animated: Bool) {

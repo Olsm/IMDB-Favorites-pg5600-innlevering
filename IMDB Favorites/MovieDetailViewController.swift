@@ -11,13 +11,36 @@ import UIKit
 class MovieDetailViewController: UIViewController {
 
     @IBOutlet weak var movieTitle: UILabel!
-    
-    var mTitle = "Title"
+    @IBOutlet weak var movieYear: UILabel!
+    @IBOutlet weak var movieLastSeen: UILabel!
+    @IBOutlet weak var movieRating: UILabel!
+    @IBOutlet weak var movieGenre: UILabel!
+    @IBOutlet weak var movieRuntime: UILabel!
+    var movie : Movie? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        movieTitle.text = mTitle
+        
+        guard let movie = movie else {
+            // TODO: Error handling
+            return
+        }
+        
+        let title = movie.title
+        let year = String(describing: movie.year)
+        let lastSeen = DateFormatter().string(for: movie.seen)
+        let rating = String(movie.rating)
+        //let genre = "Genre: "
+        let runtime = movie.runtime
+        
+        movieTitle.text = "Title: \(title)"
+        movieYear.text = "Year: \(year)"
+        movieRating.text = "Rating: \(rating)"
+        //movieGenre.text = "Genre: \(genre)"
+        movieRuntime.text = "Runtime: \(runtime)"
+        if let lastSeen = lastSeen {
+            movieLastSeen.text = "Last Seen: \(lastSeen)"
+        }
     }
 
     override func didReceiveMemoryWarning() {

@@ -156,7 +156,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="movieGenre" destination="fzh-xP-Z9x" id="PP4-mb-daQ"/>
+                        <outlet property="movieLastSeen" destination="hlG-X1-W17" id="0nR-8s-enj"/>
+                        <outlet property="movieRating" destination="hY1-Mn-c4L" id="P5y-Tm-vvw"/>
+                        <outlet property="movieRuntime" destination="a1I-uo-QPu" id="OiR-cB-e5Q"/>
                         <outlet property="movieTitle" destination="iJc-Fb-Kxc" id="Q27-qv-dvd"/>
+                        <outlet property="movieYear" destination="9V5-88-qRx" id="IHr-7V-Gco"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ubO-y8-GjF" userLabel="First Responder" sceneMemberID="firstResponder"/>
