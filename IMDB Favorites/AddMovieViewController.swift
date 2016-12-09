@@ -24,6 +24,7 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     let MOVIE_TITLE = "Title"
     let MOVIE_YEAR = "Year"
     let MOVIE_RATING = "imdbRating"
+    let MOVIE_GENRE = "Genre"
     let MOVIE_RUNTIME = "Runtime"
     
     lazy var db: CoreDataDefaultStorage = {
@@ -121,7 +122,8 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
                 movie.title = readableJSON[self.MOVIE_TITLE].stringValue
                 movie.year = readableJSON[self.MOVIE_YEAR].int16Value	
                 movie.rating = readableJSON[self.MOVIE_RATING].doubleValue
-                movie.runtime = readableJSON[self.MOVIE_RUNTIME].string!
+                movie.runtime = readableJSON[self.MOVIE_RUNTIME].stringValue
+                movie.genre = readableJSON[self.MOVIE_GENRE].stringValue
                 movie.seen = nil
                 save()
                 //self.movieEntities.append(movie)

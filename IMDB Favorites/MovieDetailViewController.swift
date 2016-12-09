@@ -26,19 +26,12 @@ class MovieDetailViewController: UIViewController {
             return
         }
         
-        let title = movie.title
-        let year = String(describing: movie.year)
-        let lastSeen = DateFormatter().string(for: movie.seen)
-        let rating = String(movie.rating)
-        //let genre = "Genre: "
-        let runtime = movie.runtime
-        
-        movieTitle.text = "Title: \(title)"
-        movieYear.text = "Year: \(year)"
-        movieRating.text = "Rating: \(rating)"
-        //movieGenre.text = "Genre: \(genre)"
-        movieRuntime.text = "Runtime: \(runtime)"
-        if let lastSeen = lastSeen {
+        movieTitle.text = movie.title
+        movieYear.text = "Year: \(String(movie.year))"
+        movieRating.text = "Rating: \(String(movie.rating))"
+        movieGenre.text = "Genre: \(movie.genre)"
+        movieRuntime.text = "Runtime: \(movie.runtime)"
+        if let lastSeen = DateFormatter().string(for: movie.seen) {
             movieLastSeen.text = "Last Seen: \(lastSeen)"
         }
     }
