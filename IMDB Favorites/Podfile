@@ -3,4 +3,5 @@ use_frameworks!
 
 target 'IMDB Favorites' do
     pod 'SwiftyJSON'
+    pod 'SugarRecord/CoreData'
 end

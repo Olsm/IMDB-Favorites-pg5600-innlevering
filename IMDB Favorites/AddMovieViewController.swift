@@ -8,6 +8,8 @@
 
 import UIKit
 import SwiftyJSON
+import CoreData
+import SugarRecord
 
 class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
     
@@ -15,7 +17,16 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     
     let searchController = UISearchController(searchResultsController: nil)
     
-    var movies : [Movie] = []
+    var movieSearch : [JSON] = []
+    var movieEntities : [Movie] = []
+    
+    lazy var db: CoreDataDefaultStorage = {
+        let store = CoreDataStore.named("movie_favorites")
+        let bundle = Bundle(for: self.classForCoder)
+        let model = CoreDataObjectModel.merged([bundle])
+        let defaultStorage = try! CoreDataDefaultStorage(store: store, model: model)
+        return defaultStorage
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +42,7 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        movieEntities = try! db.fetch(FetchRequest<Movie>())
         tableView.reloadData()
         self.definesPresentationContext = true
     }
@@ -46,48 +58,113 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        return movieSearch.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let movie = movieSearch[indexPath.row]
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        let title = movies[indexPath.row].title
-        let year = movies[indexPath.row].year
-        cell.textLabel?.text = "\(title) (\(year))"
+        cell.textLabel?.text = "\(movie["Title"]) (\(movie["Year"]))"
+        
+        /*
+        if movieEntities.contains(movieSearch[String(indexPath.row)]) {
+            cell.accessoryType = UITableViewCellAccessoryType.checkmark
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryType.none
+        }
+        */
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedMovie = movies[indexPath.row]
-        print("test: \(selectedMovie.title)")
+        let selectedMovie = movieSearch[indexPath.row]
+        saveOrRemoveMovie(movieJSON: selectedMovie)
+    }
+    
+    func saveOrRemoveMovie(movieJSON: JSON) {
+        if let movie = getMovieByJSON(movieJSON: movieJSON) {
+            deleteMovie(imdbId: movie.id)
+        } else {
+            if let movie = jsonToMovie(readableJSON: movieJSON) {
+                saveMovie(movie: movie)
+            }
+        }
+    }
+    
+    func getMovieByJSON(movieJSON: JSON) -> Movie? {
+        for movie in movieEntities {
+            if movie.id == movieJSON["imdbId"].stringValue {
+                return movie
+            }
+        }
+        return  nil
+    }
+    
+    func containsMovieByJSON(movieJSON: JSON) -> Bool {
+        for movie in movieEntities {
+            if movie.id == movieJSON["imdbId"].stringValue {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func saveMovie(movie: Movie) {
+        do {
+            try db.operation { (context, save) throws -> Void in
+                try context.insert(movie)
+                save()
+            }
+        }
+        catch {
+            // TODO: Error handling
+        }
+    }
+    
+    func deleteMovie(imdbId: String) {
+        do {
+            try db.operation { (context, save) throws in
+                let movie: Movie? = try context.request(Movie.self).filtered(with: "id", equalTo: imdbId).fetch().first
+                if let movie = movie {
+                    try context.remove([movie])
+                    save()
+                }
+            }
+        } catch {
+            // TODO: Error handling
+        }
     }
     
     func updateSearchResults(for searchController: UISearchController){}
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if let title = searchController.searchBar.text {
-            movies = parseJSON(title: title)
+            movieSearch = parseJSON(title: title)
         }
         tableView.reloadData()
     }
     
-    func parseJSON(title: String) -> [Movie] {
+    func parseJSON(title: String) -> [JSON] {
         let t = title.replacingOccurrences(of: " ", with: "+")
         return parseJSON(url: "http://www.omdbapi.com/?s=\(t)&y=&plot=short&r=json")
     }
     
-    func parseJSON(url: String) -> [Movie] {
-        movies = [Movie]()
+    func parseJSON(url: String) -> [JSON] {
         do {
             guard let path = URL(string: url) else {
-                return movies
+                return [JSON.null]
             }
-            var imdbId : String
             
-            var jsonData = try Data(contentsOf: path)
-            var readableJSON = JSON(data: jsonData)["Search"]
+            let jsonData = try Data(contentsOf: path)
+            let readableJSON = JSON(data: jsonData)["Search"]
             
-            // Replace elements with more data from api
+            return readableJSON.arrayValue
+            
+            /*
+             // Replace elements with more data from api
+             var imdbId : String
             for (index, jsonMovie) in readableJSON {
                 imdbId = jsonMovie["imdbId"].stringValue
                 guard let path = URL(string: "http://www.omdbapi.com/?i=\(imdbId)") else {
@@ -98,32 +175,42 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
             }
             
             movies = jsonToMovies(readableJSON: readableJSON)
+ 
+            */
         } catch {
             // TODO: Error handling
             print("Some JSON error occurred")
         }
         
-        return movies
+        return [JSON.null]
     }
     
     func jsonToMovies(readableJSON: JSON) -> Array<Movie> {
         var movies = [Movie]()
         if let jsonArray = readableJSON.array {
             for jsonMovie in jsonArray {
-                movies.append(jsonToMovie(readableJSON: jsonMovie))
+                movies.append(jsonToMovie(readableJSON: jsonMovie)!)
             }
         }
         return movies
     }
     
     
-    func jsonToMovie(readableJSON: JSON) -> Movie {
-        let imdbId = readableJSON["imdbId"].stringValue
-        let title = readableJSON["Title"].stringValue
-        let year = readableJSON["Year"].intValue
-        let rating = readableJSON["imdbRating"].doubleValue
-        let runtime = readableJSON["runtime"].stringValue
-        return Movie(imdbId: imdbId, title: title, year: year, rating: rating, runtime: runtime)
+    func jsonToMovie(readableJSON: JSON) -> Movie? {
+        do {
+            let movie: Movie = try db.mainContext.new()
+            movie.id = readableJSON["imdbId"].stringValue
+            movie.title = readableJSON["Title"].stringValue
+            movie.year = readableJSON["Year"].int16Value
+            movie.rating = readableJSON["imdbRating"].doubleValue
+            movie.runtime = readableJSON["runtime"].stringValue
+            movie.seen = nil
+            return movie
+        } catch {
+            // There was an error in the operation
+        }
+        
+        return nil
     }
     
 }
