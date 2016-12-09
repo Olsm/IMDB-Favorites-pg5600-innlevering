@@ -23,7 +23,7 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     let MOVIE_ID = "imdbID"
     let MOVIE_TITLE = "Title"
     let MOVIE_YEAR = "Year"
-    let MOVIE_RATE = "Rating"
+    let MOVIE_RATING = "imdbRating"
     let MOVIE_RUNTIME = "Runtime"
     
     lazy var db: CoreDataDefaultStorage = {
@@ -89,10 +89,11 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     }
     
     func saveOrRemoveMovie(movieJSON: JSON) {
-        
         if let movie = getMovieByJSON(movieJSON: movieJSON) {
             deleteMovie(imdbId: movie.id)
         } else {
+            let title = movieJSON[MOVIE_ID].stringValue
+            let movieJSON = parseJSON(title: title, type: "i")[0]
             saveMovie(readableJSON: movieJSON)
         }
         
@@ -118,8 +119,8 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
                 let movie: Movie = try context.create()
                 movie.id = readableJSON[self.MOVIE_ID].stringValue
                 movie.title = readableJSON[self.MOVIE_TITLE].stringValue
-                movie.year = Int16(readableJSON[self.MOVIE_YEAR].stringValue)!
-                movie.rating = readableJSON[self.MOVIE_RATE].double!
+                movie.year = readableJSON[self.MOVIE_YEAR].int16Value	
+                movie.rating = readableJSON[self.MOVIE_RATING].doubleValue
                 movie.runtime = readableJSON[self.MOVIE_RUNTIME].string!
                 movie.seen = nil
                 save()
@@ -150,26 +151,31 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if let title = searchController.searchBar.text {
-            movieSearch = parseJSON(title: title)
+            movieSearch = parseJSON(title: title, type: "s")
         }
         tableView.reloadData()
     }
     
-    func parseJSON(title: String) -> [JSON] {
+    func parseJSON(title: String, type: String) -> [JSON] {
         let t = title.replacingOccurrences(of: " ", with: "+")
-        return parseJSON(url: "http://www.omdbapi.com/?s=\(t)&y=&plot=short&r=json")
+        let json = parseJSON(url: "http://www.omdbapi.com/?\(type)=\(t)&y=&plot=short&r=json")
+        if type == "s" {
+            return json["Search"].arrayValue
+        } else {
+            return [json]
+        }
     }
     
-    func parseJSON(url: String) -> [JSON] {
+    func parseJSON(url: String) -> JSON {
         do {
             guard let path = URL(string: url) else {
                 return [JSON.null]
             }
             
             let jsonData = try Data(contentsOf: path)
-            let readableJSON = JSON(data: jsonData)["Search"]
+            let readableJSON = JSON(data: jsonData)
             
-            return readableJSON.arrayValue
+            return readableJSON
             
             /*
              // Replace elements with more data from api
