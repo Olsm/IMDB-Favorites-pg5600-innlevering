@@ -36,10 +36,12 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let movie = movies[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
@@ -61,6 +63,28 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewWillAppear(animated)
         movies = try! db.fetch(FetchRequest<Movie>())
         tableView.reloadData()
+        
+        // If there are no favorites, add info how to add movies
+        if movies.count == 0 {
+            
+            // Create an UILabel for showing info on no results
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "No movie favorite yet. \n\n1. Go to search \n2. Enter a title and click search. \n3. Click a movie to add it. \n4. Click it again to remove it."
+            noDataLabel.textColor = UIColor.blue
+            
+            // Make label multiline and automatically wrap by word
+            noDataLabel.textAlignment = NSTextAlignment.left
+            noDataLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+            noDataLabel.numberOfLines = 0
+            
+            // Set the label to the background view
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle = .none
+        } else {
+            tableView.backgroundView = .none
+            tableView.separatorStyle = .singleLine
+        }
+        
     }
 
 }
