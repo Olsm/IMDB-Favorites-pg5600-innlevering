@@ -9,13 +9,16 @@
 import UIKit
 
 class MovieDetailViewController: UIViewController {
-
+    
     @IBOutlet weak var movieTitle: UILabel!
     @IBOutlet weak var movieYear: UILabel!
-    @IBOutlet weak var movieLastSeen: UILabel!
     @IBOutlet weak var movieRating: UILabel!
     @IBOutlet weak var movieGenre: UILabel!
     @IBOutlet weak var movieRuntime: UILabel!
+    @IBOutlet weak var movieLastSeenBtn: UIButton!
+    @IBOutlet weak var movieCountry: UILabel!
+    @IBOutlet weak var movieLastSeenPcr: UIDatePicker!
+    
     var movie : Movie? = nil
     
     override func viewDidLoad() {
@@ -31,8 +34,9 @@ class MovieDetailViewController: UIViewController {
         movieRating.text = "Rating: \(String(movie.rating))"
         movieGenre.text = "Genre: \(movie.genre)"
         movieRuntime.text = "Runtime: \(movie.runtime)"
-        if let lastSeen = DateFormatter().string(for: movie.seen) {
-            movieLastSeen.text = "Last Seen: \(lastSeen)"
+        movieCountry.text = "Country: \(movie.country)"
+        if DateFormatter().string(for: movie.seen) != nil {
+            movieLastSeenPcr.date = movie.seen as! Date
         }
     }
 

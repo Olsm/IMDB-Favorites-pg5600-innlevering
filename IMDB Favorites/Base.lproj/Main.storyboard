@@ -83,7 +83,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="boi-Y4-j3H" id="CKH-IW-e5J">
-                                    <frame key="frameInset" width="375" height="44"/>
+                                    <frame key="frameInset" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -176,7 +176,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="movieCountry" destination="HQp-d0-fj2" id="NRs-d7-kMZ"/>
                         <outlet property="movieGenre" destination="fzh-xP-Z9x" id="PP4-mb-daQ"/>
+                        <outlet property="movieLastSeenBtn" destination="5ac-5W-F7f" id="SDZ-qk-Gg6"/>
+                        <outlet property="movieLastSeenPcr" destination="sJo-MA-UA0" id="Xe5-g2-cnv"/>
                         <outlet property="movieRating" destination="hY1-Mn-c4L" id="P5y-Tm-vvw"/>
                         <outlet property="movieRuntime" destination="a1I-uo-QPu" id="OiR-cB-e5Q"/>
                         <outlet property="movieTitle" destination="iJc-Fb-Kxc" id="Q27-qv-dvd"/>
