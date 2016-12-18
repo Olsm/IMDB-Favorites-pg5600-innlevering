@@ -39,9 +39,19 @@ class IMDBAverageView: UIView {
             avgLabel.text = "\(avgString)-"
         } else {
             let average = sum / Double(movies.count)
-            avgLabel.text = "\(avgString)\(average)"
+            avgLabel.text = "\(avgString)\(average.roundTo(places: 1))"
         }
         avgLabel.sizeToFit()
     }
+    
+    
+}
 
+// from http://stackoverflow.com/a/32581409
+extension Double {
+    /// Rounds the double to decimal places value
+    func roundTo(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
 }
