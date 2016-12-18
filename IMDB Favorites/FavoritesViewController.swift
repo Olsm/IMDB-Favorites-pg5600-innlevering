@@ -12,9 +12,9 @@ import SugarRecord
 
 class FavoritesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var tableView: UITableView!
-    var headerView: UIView!
-    var averageLabel: UILabel!
+    @IBOutlet weak var imdbAvgView: IMDBAverageView!
     
     var movies = [Movie]()
     
@@ -30,12 +30,6 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
-        // Add custom tableview for average imdb score
-        headerView = UIView()
-        averageLabel = UILabel()
-        headerView.addSubview(averageLabel)
-        self.tableView.tableHeaderView = headerView
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,9 +67,7 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         movies = try! db.fetch(FetchRequest<Movie>())
         
         // Set the average imdb rating
-        setAverageScore()
-        headerView.sizeToFit()
-        self.tableView.tableHeaderView?.sizeToFit()
+         imdbAvgView.calculateAverage(movies: movies)
         
         // If there are no favorites, add info how to add movies
         if movies.count == 0 {
@@ -99,19 +91,6 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
         tableView.reloadData()
-    }
-    
-    // Set the average imdb rating
-    func setAverageScore() {
-        let avgString = "Gjennomsnitt i IMDB: "
-        let sum = movies.reduce(0.0) {$0 + ($1.rating)}
-        if sum == 0 {
-            averageLabel.text = "\(avgString)-"
-        } else {
-            let average = sum / Double(movies.count)
-            averageLabel.text = "\(avgString)\(average)"
-        }
-        averageLabel.sizeToFit()
     }
 
 }

@@ -19,46 +19,49 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nsj-hF-smh">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Hgt-dE-0Us">
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IMDB Favorites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf2-PE-0CF">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IMDB Favorites" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf2-PE-0CF">
                                         <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lnb-eO-CIJ" customClass="IMDBAverageView" customModule="IMDB_Favorites" customModuleProvider="target">
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jpE-Gp-q7w">
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="474" id="euh-y1-gFc"/>
+                                        </constraints>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="2eu-92-DI2">
+                                                <rect key="frame" x="0.0" y="28" width="343" height="50"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2eu-92-DI2" id="ckz-es-VjU">
+                                                    <frame key="frameInset" width="343" height="49"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="9pv-A4-QxB" id="OZr-3B-Vu9"/>
+                                        </connections>
+                                    </tableView>
                                 </subviews>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jpE-Gp-q7w">
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="539" id="4dq-hh-dMb"/>
-                                </constraints>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="2eu-92-DI2">
-                                        <rect key="frame" x="0.0" y="28" width="343" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2eu-92-DI2" id="ckz-es-VjU">
-                                            <frame key="frameInset" width="343" height="49"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="9pv-A4-QxB" id="OZr-3B-Vu9"/>
-                                </connections>
-                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="jpE-Gp-q7w" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="5bl-at-4Rz"/>
-                            <constraint firstItem="jpE-Gp-q7w" firstAttribute="top" secondItem="nsj-hF-smh" secondAttribute="bottom" constant="8" symbolic="YES" id="9vb-Lm-Jv8"/>
-                            <constraint firstItem="jpE-Gp-q7w" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" id="MYV-lS-DEt"/>
-                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="jpE-Gp-q7w" secondAttribute="bottom" constant="8" symbolic="YES" id="osQ-sr-sdN"/>
-                            <constraint firstItem="nsj-hF-smh" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="51" id="q9S-Xi-biC"/>
+                            <constraint firstItem="Hgt-dE-0Us" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" id="Gn8-qe-zOe"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="Hgt-dE-0Us" secondAttribute="bottom" id="OdY-eF-ahi"/>
+                            <constraint firstItem="Hgt-dE-0Us" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="pHw-Ei-MA1"/>
+                            <constraint firstItem="Hgt-dE-0Us" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="8" symbolic="YES" id="tL7-u3-PNn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="gOw-xh-Jaa"/>
                     <connections>
+                        <outlet property="imdbAvgView" destination="lnb-eO-CIJ" id="zV1-ph-MRX"/>
                         <outlet property="tableView" destination="jpE-Gp-q7w" id="Qqs-YH-Vjf"/>
                         <segue destination="lE8-hu-qAd" kind="show" identifier="ShowMovieSegue" id="jHY-Mz-1Cw"/>
                     </connections>
@@ -80,7 +83,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="boi-Y4-j3H" id="CKH-IW-e5J">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
