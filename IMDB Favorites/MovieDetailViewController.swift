@@ -56,6 +56,7 @@ class MovieDetailViewController: UIViewController {
         } else {
             movieLastSeenPcr.isHidden = true
         }
+        movieLastSeenPcr.maximumDate = Date()
     }
     
     @IBAction func movieLastSeenToggle(_ sender: UIButton) {
@@ -69,6 +70,7 @@ class MovieDetailViewController: UIViewController {
             movieLastSeenBtn.setTitle("Add Last Seen Date", for: .normal)
             updateMovieLastSeenDate(lastSeen: nil)
         }
+        movieLastSeenPcr.maximumDate = Date()
     }
     
     @IBAction func deleteMovie(_ sender: UIButton) {
