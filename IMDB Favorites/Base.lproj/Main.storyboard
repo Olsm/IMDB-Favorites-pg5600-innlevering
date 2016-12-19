@@ -50,6 +50,9 @@
                                             <segment title="All"/>
                                             <segment title="Recommended"/>
                                         </segments>
+                                        <connections>
+                                            <action selector="segmentChanged:" destination="9pv-A4-QxB" eventType="valueChanged" id="vNQ-6I-tgt"/>
+                                        </connections>
                                     </segmentedControl>
                                 </subviews>
                                 <constraints>

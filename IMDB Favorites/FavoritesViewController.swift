@@ -17,6 +17,7 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var imdbAvgView: IMDBAverageView!
     
     var movies = [Movie]()
+    var recommendedMode = false
     
     lazy var db: CoreDataDefaultStorage = {
         let store = CoreDataStore.named("movie_favorites")
@@ -38,22 +39,48 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return movies.count
+        if recommendedMode {
+            return getRecommendedMovies().count
+        } else {
+            return movies.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let movie = movies[indexPath.row]
+        let movie: Movie
+        if recommendedMode {
+            movie = getRecommendedMovies()[indexPath.row]
+        } else {
+            movie = movies[indexPath.row]
+        }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = "\(movie.title) (\(movie.year))"
+        var newCellText = ""
+        if (movie.isRecommended()) {
+            newCellText += "★ "
+        }
+        newCellText += "\(movie.title) (\(movie.year))"
+        cell.textLabel?.text = newCellText
         
         return cell
     }
     
+    func getRecommendedMovies() -> [Movie] {
+        return movies.filter{$0.isRecommended()}
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "ShowMovieSegue", sender: movies[indexPath.row])
+    }
+    
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            recommendedMode = false
+        } else {
+            recommendedMode = true
+        }
+        tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -93,5 +120,24 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.reloadData()
     }
 
+}
+
+extension Movie {
+    func isRecommended() -> Bool {
+        if seen != nil &&
+            Date().years(from: seen!) >= 3 &&
+            rating > 7.0 {
+            return true
+        }
+        return false
+    }
+}
+
+// http://stackoverflow.com/a/27184261
+extension Date {
+    /// Returns the amount of years from another date
+    func years(from date: Date) -> Int {
+        return Calendar.current.dateComponents([.year], from: date, to: self).year ?? 0
+    }
 }
 
