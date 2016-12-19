@@ -18,6 +18,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var movieLastSeenBtn: UIButton!
     @IBOutlet weak var movieCountry: UILabel!
     @IBOutlet weak var movieLastSeenPcr: UIDatePicker!
+    @IBOutlet weak var movieDeleteBtn: UIStackView!
     
     var movie : Movie? = nil
     
@@ -29,17 +30,37 @@ class MovieDetailViewController: UIViewController {
             return
         }
         
+        // Add the movie details to view
         movieTitle.text = movie.title
         movieYear.text = "Year: \(String(movie.year))"
         movieRating.text = "Rating: \(String(movie.rating))"
         movieGenre.text = "Genre: \(movie.genre)"
         movieRuntime.text = "Runtime: \(movie.runtime)"
         movieCountry.text = "Country: \(movie.country)"
+        
+        // Enable/disable picker and button for last seen date
         if DateFormatter().string(for: movie.seen) != nil {
             movieLastSeenPcr.date = movie.seen as! Date
+            movieLastSeenBtn.setTitle("Remove Last Seen Date", for: .normal)
+        } else {
+            movieLastSeenPcr.isHidden = true
         }
     }
-
+    
+    @IBAction func movieLastSeenToggle(_ sender: UIButton) {
+        if (movieLastSeenPcr.isHidden) {
+            movieLastSeenPcr.isHidden = false
+            movieLastSeenBtn.setTitle("Remove Last Seen Date", for: .normal)
+        } else {
+            movieLastSeenPcr.isHidden = true
+            movieLastSeenBtn.setTitle("Add Last Seen Date", for: .normal)
+        }
+    }
+    
+    @IBAction func deleteMovie(_ sender: UIButton) {
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

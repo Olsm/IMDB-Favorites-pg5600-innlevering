@@ -44,7 +44,6 @@ class IMDBAverageView: UIView {
         avgLabel.sizeToFit()
     }
     
-    
 }
 
 // from http://stackoverflow.com/a/32581409

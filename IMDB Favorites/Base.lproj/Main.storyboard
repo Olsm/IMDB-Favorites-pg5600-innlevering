@@ -152,18 +152,33 @@
                                         <state key="normal" title="Add Last Seen Date">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="movieLastSeenToggle:" destination="lE8-hu-qAd" eventType="touchUpInside" id="TXu-Gu-iT1"/>
+                                        </connections>
                                     </button>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="sJo-MA-UA0">
                                         <date key="date" timeIntervalSinceReferenceDate="503783673.922934">
                                             <!--2016-12-18 19:54:33 +0000-->
                                         </date>
                                     </datePicker>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQS-3T-JEy">
+                                        <color key="backgroundColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title="Delete movie from favorites">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="deleteMovie:" destination="lE8-hu-qAd" eventType="touchUpInside" id="rJA-Vk-3Cq"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="iJc-Fb-Kxc" secondAttribute="trailing" id="6DM-7L-TKu"/>
                                     <constraint firstItem="iJc-Fb-Kxc" firstAttribute="leading" secondItem="HXY-7N-ZGv" secondAttribute="leading" id="Otz-6f-ua8"/>
+                                    <constraint firstAttribute="trailing" secondItem="AQS-3T-JEy" secondAttribute="trailing" id="Uun-vP-mU8"/>
                                     <constraint firstAttribute="trailing" secondItem="5ac-5W-F7f" secondAttribute="trailing" id="VLW-0F-5Gn"/>
                                     <constraint firstItem="5ac-5W-F7f" firstAttribute="leading" secondItem="HXY-7N-ZGv" secondAttribute="leading" id="q8u-gn-0dV"/>
+                                    <constraint firstItem="AQS-3T-JEy" firstAttribute="leading" secondItem="HXY-7N-ZGv" secondAttribute="leading" id="sbj-bI-WcC"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -171,12 +186,13 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="HXY-7N-ZGv" secondAttribute="trailing" id="8dt-Pv-dAB"/>
                             <constraint firstItem="HXY-7N-ZGv" firstAttribute="leading" secondItem="B1Y-EH-5VI" secondAttribute="leadingMargin" id="EHG-YN-moi"/>
-                            <constraint firstItem="baw-ZP-1XL" firstAttribute="top" secondItem="HXY-7N-ZGv" secondAttribute="bottom" id="ew2-Da-Ygu"/>
+                            <constraint firstItem="baw-ZP-1XL" firstAttribute="top" secondItem="HXY-7N-ZGv" secondAttribute="bottom" constant="20" id="ew2-Da-Ygu"/>
                             <constraint firstItem="HXY-7N-ZGv" firstAttribute="top" secondItem="lnP-eK-rmY" secondAttribute="bottom" id="iNe-qh-aD7"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="movieCountry" destination="HQp-d0-fj2" id="NRs-d7-kMZ"/>
+                        <outlet property="movieDeleteBtn" destination="HXY-7N-ZGv" id="XOH-JX-QOZ"/>
                         <outlet property="movieGenre" destination="fzh-xP-Z9x" id="PP4-mb-daQ"/>
                         <outlet property="movieLastSeenBtn" destination="5ac-5W-F7f" id="SDZ-qk-Gg6"/>
                         <outlet property="movieLastSeenPcr" destination="sJo-MA-UA0" id="Xe5-g2-cnv"/>
