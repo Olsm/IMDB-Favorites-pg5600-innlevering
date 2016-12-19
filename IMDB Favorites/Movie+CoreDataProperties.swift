@@ -23,6 +23,6 @@ extension Movie {
     @NSManaged public var runtime: String
     @NSManaged public var genre: String
     @NSManaged public var country: String
-    @NSManaged public var seen: NSDate?
+    @NSManaged public var seen: Date?
 
 }

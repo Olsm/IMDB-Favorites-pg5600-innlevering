@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+import SugarRecord
 
 class MovieDetailViewController: UIViewController {
     
@@ -21,6 +23,14 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var movieDeleteBtn: UIStackView!
     
     var movie : Movie? = nil
+    
+    lazy var db: CoreDataDefaultStorage = {
+        let store = CoreDataStore.named("movie_favorites")
+        let bundle = Bundle(for: self.classForCoder)
+        let model = CoreDataObjectModel.merged([bundle])
+        let defaultStorage = try! CoreDataDefaultStorage(store: store, model: model)
+        return defaultStorage
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,8 +49,9 @@ class MovieDetailViewController: UIViewController {
         movieCountry.text = "Country: \(movie.country)"
         
         // Enable/disable picker and button for last seen date
-        if DateFormatter().string(for: movie.seen) != nil {
-            movieLastSeenPcr.date = movie.seen as! Date
+        let seenDate = movie.seen
+        if DateFormatter().string(for: seenDate) != nil {
+            movieLastSeenPcr.date = movie.seen!
             movieLastSeenBtn.setTitle("Remove Last Seen Date", for: .normal)
         } else {
             movieLastSeenPcr.isHidden = true
@@ -51,14 +62,44 @@ class MovieDetailViewController: UIViewController {
         if (movieLastSeenPcr.isHidden) {
             movieLastSeenPcr.isHidden = false
             movieLastSeenBtn.setTitle("Remove Last Seen Date", for: .normal)
+            let lastSeenDate = movieLastSeenPcr.date
+            updateMovieLastSeenDate(lastSeen: lastSeenDate)
         } else {
             movieLastSeenPcr.isHidden = true
             movieLastSeenBtn.setTitle("Add Last Seen Date", for: .normal)
+            updateMovieLastSeenDate(lastSeen: nil)
         }
     }
     
     @IBAction func deleteMovie(_ sender: UIButton) {
-        
+        do {
+            try db.operation { (context, save) throws -> Void in
+                let movie = try context.request(Movie.self).filtered(with: "id", equalTo: (self.movie?.id)!).fetch().first
+                try context.remove([movie!])
+                save()
+                // Make sure to return to favorites list
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        }
+        catch {
+            // TODO: Error handling
+        }
+    }
+    
+    @IBAction func movieLastSeenDateChanged(_ sender: UIDatePicker) {
+        updateMovieLastSeenDate(lastSeen: movieLastSeenPcr.date)
+    }
+    
+    func updateMovieLastSeenDate(lastSeen: Date?) {
+        do {
+            try db.operation { (context, save) throws -> Void in
+                self.movie?.seen = lastSeen
+                save()
+            }
+        }
+        catch {
+            // TODO: Error handling
+        }
     }
     
     override func didReceiveMemoryWarning() {
