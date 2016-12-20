@@ -23,19 +23,16 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var movieDeleteBtn: UIStackView!
     
     var movie : Movie? = nil
-    
-    lazy var db: CoreDataDefaultStorage = {
-        let store = CoreDataStore.named("movie_favorites")
-        let bundle = Bundle(for: self.classForCoder)
-        let model = CoreDataObjectModel.merged([bundle])
-        let defaultStorage = try! CoreDataDefaultStorage(store: store, model: model)
-        return defaultStorage
-    }()
+    var db: CoreDataDefaultStorage? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         guard let movie = movie else {
+            // TODO: Error handling
+            return
+        }
+        guard db != nil else {
             // TODO: Error handling
             return
         }
@@ -52,34 +49,54 @@ class MovieDetailViewController: UIViewController {
         let seenDate = movie.seen
         if DateFormatter().string(for: seenDate) != nil {
             movieLastSeenPcr.date = movie.seen!
-            movieLastSeenBtn.setTitle("Remove Last Seen Date", for: .normal)
         } else {
             movieLastSeenPcr.isHidden = true
         }
-        movieLastSeenPcr.maximumDate = Date()
+        updateMovieLastSeenPcr()
     }
     
     @IBAction func movieLastSeenToggle(_ sender: UIButton) {
         if (movieLastSeenPcr.isHidden) {
             movieLastSeenPcr.isHidden = false
-            movieLastSeenBtn.setTitle("Remove Last Seen Date", for: .normal)
-            let lastSeenDate = movieLastSeenPcr.date
-            updateMovieLastSeenDate(lastSeen: lastSeenDate)
+            updateMovieLastSeenDate(lastSeen: movieLastSeenPcr.date)
         } else {
             movieLastSeenPcr.isHidden = true
-            movieLastSeenBtn.setTitle("Add Last Seen Date", for: .normal)
             updateMovieLastSeenDate(lastSeen: nil)
         }
-        movieLastSeenPcr.maximumDate = Date()
+        
+        updateMovieLastSeenPcr()
+    }
+    
+    func updateMovieLastSeenPcr() {
+        if (movieLastSeenPcr.isHidden) {
+            movieLastSeenBtn.setTitle("Add Last Seen Date", for: .normal)
+        } else {
+            movieLastSeenBtn.setTitle("Remove Last Seen Date", for: .normal)
+            
+            // Set minimum year for datepicker
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy"
+            let minimumDate = formatter.date(from: String(movie!.year))
+            
+            // TODO: Set minimum date as release date
+            //formatter.dateFormat = "dd mmm yyyy"
+            //let releaseDate = formatter.date(from: movie.release)
+            
+            movieLastSeenPcr.minimumDate = minimumDate
+            movieLastSeenPcr.maximumDate = Date()
+        }
     }
     
     @IBAction func deleteMovie(_ sender: UIButton) {
         do {
-            try db.operation { (context, save) throws in
+            try db!.operation { (context, save) throws in
+                
+                // Delete movie from context and database
                 let movie: Movie? = try context.request(Movie.self).filtered(with: "id", equalTo: self.movie!.id).fetch().first
                 if let movie = movie {
                     try context.remove(movie)
                     save()
+                    
                     // Go back to favorites view
                     let _ = self.navigationController?.popViewController(animated: true)
                 }
@@ -96,11 +113,10 @@ class MovieDetailViewController: UIViewController {
     
     func updateMovieLastSeenDate(lastSeen: Date?) {
         do {
-            try db.operation { (context, save) throws -> Void in
+            try db!.operation { (context, save) throws -> Void in
                 let movie = try context.request(Movie.self).filtered(with: "id", equalTo: self.movie!.id).fetch().first
                 if let movie = movie {
                     movie.seen = lastSeen
-                    self.movie = movie
                     save()
                 }
             }

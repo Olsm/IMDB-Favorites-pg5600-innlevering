@@ -72,13 +72,7 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let sender: Movie
-        if (recommendedMode) {
-            sender = getRecommendedMovies()[indexPath.row]
-        } else {
-            sender = movies[indexPath.row]
-        }
-        performSegue(withIdentifier: "ShowMovieSegue", sender: sender)
+        performSegue(withIdentifier: "ShowMovieSegue", sender: self)
     }
     
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
@@ -98,7 +92,13 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let guest = segue.destination as! MovieDetailViewController
-        guest.movie = (sender as! Movie)
+        let index = self.tableView.indexPathForSelectedRow!.row
+        if (recommendedMode) {
+            guest.movie = getRecommendedMovies()[index]
+        } else {
+            guest.movie = movies[index]
+        }
+        guest.db = self.db
     }
     
     override func viewWillAppear(_ animated: Bool) {
