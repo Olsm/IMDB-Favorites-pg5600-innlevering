@@ -141,7 +141,7 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
             try db.operation { (context, save) throws in
                 let movie: Movie? = try context.request(Movie.self).filtered(with: "id", equalTo: imdbId).fetch().first
                 if let movie = movie {
-                    try context.remove([movie])
+                    try context.remove(movie)
                     save()
                 }
             }
