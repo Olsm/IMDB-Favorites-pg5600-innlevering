@@ -143,7 +143,6 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
                 if let movie = movie {
                     try context.remove([movie])
                     save()
-                    //self.movieEntities.remove(at: self.movieEntities.index(of: movie)!)
                 }
             }
         } catch {
@@ -180,22 +179,6 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
             let readableJSON = JSON(data: jsonData)
             
             return readableJSON
-            
-            /*
-             // Replace elements with more data from api
-             var imdbId : String
-            for (index, jsonMovie) in readableJSON {
-                imdbId = jsonMovie[MOVIE_ID].stringValue
-                guard let path = URL(string: "http://www.omdbapi.com/?i=\(imdbId)") else {
-                    return movies
-                }
-                try jsonData = Data(contentsOf: path)
-                readableJSON[index] = JSON(data: jsonData)
-            }
-            
-            movies = jsonToMovies(readableJSON: readableJSON)
- 
-            */
         } catch {
             // TODO: Error handling
             print("Some JSON error occurred")

@@ -15,6 +15,7 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imdbAvgView: IMDBAverageView!
+    @IBOutlet weak var recommendedSwitch: UISegmentedControl!
     
     var movies = [Movie]()
     var recommendedMode = false
@@ -71,16 +72,28 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ShowMovieSegue", sender: movies[indexPath.row])
+        let sender: Movie
+        if (recommendedMode) {
+            sender = getRecommendedMovies()[indexPath.row]
+        } else {
+            sender = movies[indexPath.row]
+        }
+        performSegue(withIdentifier: "ShowMovieSegue", sender: sender)
     }
     
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
+        calculateIMDBAverage()
+        tableView.reloadData()
+    }
+    
+    func calculateIMDBAverage() {
+        if recommendedSwitch.selectedSegmentIndex == 0 {
             recommendedMode = false
+            imdbAvgView.calculateAverage(movies: movies)
         } else {
             recommendedMode = true
+            imdbAvgView.calculateAverage(movies: getRecommendedMovies())
         }
-        tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -91,10 +104,10 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        movies = try! db.fetch(FetchRequest<Movie>())
+        movies = try! db.fetch(FetchRequest<Movie>().sorted(with: "title", ascending: true))
         
         // Set the average imdb rating
-         imdbAvgView.calculateAverage(movies: movies)
+        calculateIMDBAverage()
         
         // If there are no favorites, add info how to add movies
         if movies.count == 0 {
@@ -122,6 +135,7 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
 
 }
 
+// Add isRecommended function to movie
 extension Movie {
     func isRecommended() -> Bool {
         if seen != nil &&

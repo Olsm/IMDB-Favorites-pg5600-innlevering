@@ -75,12 +75,14 @@ class MovieDetailViewController: UIViewController {
     
     @IBAction func deleteMovie(_ sender: UIButton) {
         do {
-            try db.operation { (context, save) throws -> Void in
-                let movie = try context.request(Movie.self).filtered(with: "id", equalTo: (self.movie?.id)!).fetch().first
-                try context.remove([movie!])
-                save()
-                // Make sure to return to favorites list
-                _ = self.navigationController?.popViewController(animated: true)
+            try db.operation { (context, save) throws in
+                let movie: Movie? = try context.request(Movie.self).filtered(with: "id", equalTo: self.movie!.id).fetch().first
+                if let movie = movie {
+                    try context.remove([movie])
+                    save()
+                    // Go back to favorites view
+                    let _ = self.navigationController?.popViewController(animated: true)
+                }
             }
         }
         catch {
@@ -95,8 +97,12 @@ class MovieDetailViewController: UIViewController {
     func updateMovieLastSeenDate(lastSeen: Date?) {
         do {
             try db.operation { (context, save) throws -> Void in
-                self.movie?.seen = lastSeen
-                save()
+                let movie = try context.request(Movie.self).filtered(with: "id", equalTo: self.movie!.id).fetch().first
+                if let movie = movie {
+                    movie.seen = lastSeen
+                    self.movie = movie
+                    save()
+                }
             }
         }
         catch {

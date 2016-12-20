@@ -71,6 +71,7 @@
                     <navigationItem key="navigationItem" id="gOw-xh-Jaa"/>
                     <connections>
                         <outlet property="imdbAvgView" destination="lnb-eO-CIJ" id="zV1-ph-MRX"/>
+                        <outlet property="recommendedSwitch" destination="dFq-Ee-aR5" id="Wn1-rn-0AC"/>
                         <outlet property="tableView" destination="jpE-Gp-q7w" id="Qqs-YH-Vjf"/>
                         <segue destination="lE8-hu-qAd" kind="show" identifier="ShowMovieSegue" id="jHY-Mz-1Cw"/>
                     </connections>
