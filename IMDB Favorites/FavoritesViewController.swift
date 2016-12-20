@@ -76,18 +76,22 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
-        calculateIMDBAverage()
-        tableView.reloadData()
+        if sender.selectedSegmentIndex == 0 {
+            recommendedMode(enabled: false)
+        } else {
+            recommendedMode(enabled: true)
+        }
     }
     
-    func calculateIMDBAverage() {
-        if recommendedSwitch.selectedSegmentIndex == 0 {
-            recommendedMode = false
-            imdbAvgView.calculateAverage(movies: movies)
-        } else {
-            recommendedMode = true
+    func recommendedMode(enabled: Bool) {
+        if enabled {
+            self.recommendedMode = true
             imdbAvgView.calculateAverage(movies: getRecommendedMovies())
+        } else {
+            self.recommendedMode = false
+            imdbAvgView.calculateAverage(movies: movies)
         }
+        tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -105,9 +109,6 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewWillAppear(animated)
         
         movies = try! db.fetch(FetchRequest<Movie>().sorted(with: "title", ascending: true))
-        
-        // Set the average imdb rating
-        calculateIMDBAverage()
         
         // If there are no favorites, add info how to add movies
         if movies.count == 0 {
@@ -130,7 +131,8 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
             tableView.separatorStyle = .singleLine
         }
         
-        tableView.reloadData()
+        // Set recommended mode false and calculate imdb average
+        recommendedMode(enabled: false)
     }
 
 }
