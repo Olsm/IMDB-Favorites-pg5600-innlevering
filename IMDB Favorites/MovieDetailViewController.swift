@@ -78,7 +78,7 @@ class MovieDetailViewController: UIViewController {
             try db.operation { (context, save) throws in
                 let movie: Movie? = try context.request(Movie.self).filtered(with: "id", equalTo: self.movie!.id).fetch().first
                 if let movie = movie {
-                    try context.remove([movie])
+                    try context.remove(movie)
                     save()
                     // Go back to favorites view
                     let _ = self.navigationController?.popViewController(animated: true)
