@@ -66,6 +66,18 @@ class AddMovieViewController: UITableViewController, UISearchBarDelegate, UISear
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        // Show info if there are no results
+        if movieSearch.count == 0 && searchController.searchBar.text != "" {
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "No results found"
+            noDataLabel.textColor = UIColor.blue
+            noDataLabel.textAlignment = NSTextAlignment.center
+            tableView.backgroundView = noDataLabel
+        } else {
+            tableView.backgroundView = .none
+        }
+        
         return movieSearch.count
     }
     

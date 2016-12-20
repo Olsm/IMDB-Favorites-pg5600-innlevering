@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -28,6 +27,9 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lnb-eO-CIJ" customClass="IMDBAverageView" customModule="IMDB_Favorites" customModuleProvider="target">
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="AiK-lm-aTg"/>
+                                        </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jpE-Gp-q7w">
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -36,7 +38,7 @@
                                                 <rect key="frame" x="0.0" y="28" width="343" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2eu-92-DI2" id="ckz-es-VjU">
-                                                    <frame key="frameInset" width="343" height="49"/>
+                                                    <frame key="frameInset" width="343" height="50"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
@@ -55,15 +57,12 @@
                                         </connections>
                                     </segmentedControl>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="jpE-Gp-q7w" firstAttribute="top" secondItem="Hgt-dE-0Us" secondAttribute="top" constant="103" id="ckM-64-axd"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Hgt-dE-0Us" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" id="Gn8-qe-zOe"/>
-                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="Hgt-dE-0Us" secondAttribute="bottom" constant="20" id="OdY-eF-ahi"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="Hgt-dE-0Us" secondAttribute="bottom" constant="10" id="OdY-eF-ahi"/>
                             <constraint firstItem="Hgt-dE-0Us" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="pHw-Ei-MA1"/>
                             <constraint firstItem="Hgt-dE-0Us" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="8" symbolic="YES" id="tL7-u3-PNn"/>
                         </constraints>
@@ -93,7 +92,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="boi-Y4-j3H" id="CKH-IW-e5J">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
