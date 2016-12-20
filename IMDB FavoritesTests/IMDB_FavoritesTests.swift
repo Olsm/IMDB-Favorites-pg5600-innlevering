@@ -12,12 +12,13 @@ import XCTest
 var vc: FavoritesViewController!
 
 class IMDB_FavoritesTests: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         vc = storyboard.instantiateViewController(withIdentifier: "FavoritesViewController") as! FavoritesViewController
         vc.loadView()
+        
     }
     
     override func tearDown() {
@@ -30,6 +31,34 @@ class IMDB_FavoritesTests: XCTestCase {
         XCTAssertTrue(vc.recommendedMode)
     }
     
+    /*
+    func testIsRecommeded() {
+        let movie = Movie()
+        movie.rating = 7.1
+        movie.seen = date3YearsAgo()
+        
+        XCTAssertTrue(movie.isRecommended())
+    }
     
+    func testIsNotRecommendedByDate() {
+        let movie = Movie()
+        movie.rating = 7.1
+        movie.seen = Date()
+        
+        XCTAssertFalse(movie.isRecommended())
+    }
+    
+    func testisNotRecommendedByRating() {
+        let movie = Movie()
+        movie.rating = 7.0
+        movie.seen = Date()
+        
+        XCTAssertFalse(movie.isRecommended())
+    }
+    
+    func date3YearsAgo() -> Date {
+        return Calendar.current.date(byAdding: .year, value: -3, to: Date())!
+    }
+     */
     
 }
